@@ -1,12 +1,13 @@
 #include <Homie.h>
 #include <DHT.h>
 
-const int TEMPERATURE_INTERVAL = 3;
+const int TEMPERATURE_INTERVAL = 60;
 unsigned long lastTemperatureSent = 0;
 
 const int PIN_DHT22 = 2;    // Broche - Pin DHT22
 DHT dht(PIN_DHT22, DHT22);
 
+HomieNode recordNode("record", "record");
 HomieNode temperatureNode("temperature", "temperature");
 HomieNode humidityNode("humidity", "humidity");
 
@@ -22,6 +23,9 @@ void loopHandler() {
       temperatureNode.setProperty("json").send("{\"t\":" + String(t) + ",\"unit\":\"c\"}");
       humidityNode.setProperty("humidity").send(String(h));
       humidityNode.setProperty("json").send("{\"h\":" + String(t) + ",\"unit\":\"%\"}");
+      recordNode.setProperty("json")
+      .send("{\"deviceId\":\"5c6a3593309ec7fcc0224816\",\"temp\":"+ String(t) +",\"tempUnit\":\"C\",\"hum\":"+ String(h) +",\"humUnit\":\"%\"}");
+
       lastTemperatureSent = millis();
     }
     lastTemperatureSent = millis();
