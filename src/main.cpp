@@ -1,5 +1,6 @@
 #include <Homie.h>
 #include <DHT.h>
+#include <Adafruit_Sensor.h>
 
 const int TEMPERATURE_INTERVAL = 60;
 unsigned long lastTemperatureSent = 0;
@@ -43,5 +44,6 @@ void setup() {
 }
 
 void loop() {
+  // Homie.reset();
   Homie.loop();
 }
